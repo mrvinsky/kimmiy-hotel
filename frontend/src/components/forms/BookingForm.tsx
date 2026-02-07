@@ -25,10 +25,12 @@ interface BookingFormProps {
 export function BookingForm({ roomId, roomName }: BookingFormProps) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<BookingFormData>();
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
     const { t } = useLanguage();
 
     const onSubmit = async (data: BookingFormData) => {
         setStatus('submitting');
+        setErrorMessage('');
         try {
             await api.post('/bookings', {
                 ...data,
@@ -38,9 +40,11 @@ export function BookingForm({ roomId, roomName }: BookingFormProps) {
             });
             setStatus('success');
             reset();
-        } catch (error) {
-            console.error(error);
+        } catch (error: any) {
+            console.error('Booking Error:', error);
             setStatus('error');
+            const message = error.response?.data?.message;
+            setErrorMessage(Array.isArray(message) ? message.join(', ') : (message || t.booking.error));
         }
     };
 
@@ -153,7 +157,9 @@ export function BookingForm({ roomId, roomName }: BookingFormProps) {
             </button>
 
             {status === 'error' && (
-                <div className="text-red-500 text-sm text-center">{t.booking.error}</div>
+                <div className="text-red-500 text-sm text-center p-2 bg-red-50 rounded-lg">
+                    {errorMessage || t.booking.error}
+                </div>
             )}
         </form>
     );

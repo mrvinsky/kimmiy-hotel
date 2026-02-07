@@ -3,8 +3,26 @@
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 
+import { useState } from 'react';
+import api from '@/lib/api';
+
 export function Footer() {
     const { t } = useLanguage();
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const handleSubscribe = async () => {
+        if (!email) return;
+        setStatus('loading');
+        try {
+            await api.post('/subscribers', { email });
+            setStatus('success');
+            setEmail('');
+        } catch (error) {
+            console.error(error);
+            setStatus('error');
+        }
+    };
 
     return (
         <footer className="bg-[#292524] text-[#f5f5f4] pt-24 pb-12 border-t border-[#44403c]">
@@ -16,15 +34,26 @@ export function Footer() {
                         <h2 className="text-3xl font-bold mb-4">{t.footer.newsletter.title}</h2>
                         <p className="text-zinc-400">{t.footer.newsletter.description}</p>
                     </div>
-                    <div className="flex gap-4">
-                        <input
-                            type="email"
-                            placeholder={t.footer.newsletter.placeholder}
-                            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl px-6 py-4 outline-none focus:ring-2 focus:ring-blue-900 transition-all text-white"
-                        />
-                        <button className="px-8 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-colors">
-                            {t.footer.newsletter.button}
-                        </button>
+                    <div className="flex flex-col gap-2">
+                        <div className="flex gap-4">
+                            <input
+                                type="email"
+                                placeholder={t.footer.newsletter.placeholder}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                disabled={status === 'loading' || status === 'success'}
+                                className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl px-6 py-4 outline-none focus:ring-2 focus:ring-blue-900 transition-all text-white disabled:opacity-50"
+                            />
+                            <button
+                                onClick={handleSubscribe}
+                                disabled={status === 'loading' || status === 'success'}
+                                className="px-8 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-colors disabled:opacity-50"
+                            >
+                                {status === 'loading' ? '...' : t.footer.newsletter.button}
+                            </button>
+                        </div>
+                        {status === 'success' && <p className="text-emerald-500 text-sm ml-2">✓ {t.footer.newsletter.success || 'Subscribed successfully!'}</p>}
+                        {status === 'error' && <p className="text-red-500 text-sm ml-2">⚠ {t.footer.newsletter.error || 'Subscription failed.'}</p>}
                     </div>
                 </div>
 

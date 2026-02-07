@@ -18,6 +18,9 @@ export class Room {
   @Column()
   capacity: number;
 
+  @Column({ default: 1 })
+  totalStock: number;
+
   @Column('simple-array', { nullable: true })
   images: string[];
 

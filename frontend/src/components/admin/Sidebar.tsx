@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, BedDouble, CalendarDays, Images, LogOut } from 'lucide-react';
+import { LayoutDashboard, BedDouble, CalendarDays, Images, LogOut, Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export function AdminSidebar() {
@@ -12,9 +12,10 @@ export function AdminSidebar() {
 
     const links = [
         { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-        { href: '/admin/rooms', label: 'Odalar', icon: BedDouble },
-        { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarDays },
-        { href: '/admin/content', label: 'İçerik Yönetimi', icon: Images }, // Pending implementation
+        { href: '/admin/rooms', label: 'Rooms', icon: BedDouble },
+        { href: '/admin/bookings', label: 'Bookings', icon: CalendarDays },
+        { href: '/admin/subscribers', label: 'Subscribers', icon: Mail },
+        { href: '/admin/content', label: 'Content Management', icon: Images }, // Pending implementation
     ];
 
     const handleLogout = () => {
@@ -54,7 +55,7 @@ export function AdminSidebar() {
                     className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg text-sm font-medium text-red-400 hover:bg-zinc-800 transition-colors"
                 >
                     <LogOut className="w-5 h-5" />
-                    <span>Çıkış Yap</span>
+                    <span>Logout</span>
                 </button>
             </div>
         </div>

@@ -17,7 +17,7 @@ export class CreateBookingDto {
   @IsEmail()
   guestEmail: string;
 
-  @IsPhoneNumber()
+  @IsString()
   guestPhone: string;
 
   @IsDateString()

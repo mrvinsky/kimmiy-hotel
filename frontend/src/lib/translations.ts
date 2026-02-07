@@ -87,7 +87,9 @@ export const translations = {
                 title: "Stay Updated with Kimmiy",
                 description: "Subscribe to our newsletter for special offers, events, and announcements.",
                 placeholder: "Your email address",
-                button: "Subscribe"
+                button: "Subscribe",
+                success: "Subscribed successfully!",
+                error: "Subscription failed."
             },
             brandDesc: "Kimmiy Hotel is located in the peaceful area of Surčin, just 2.9 km from Nikola Tesla International Airport.",
             sections: {
@@ -238,7 +240,9 @@ export const translations = {
                 title: "Ostanite u toku sa Kimmiy",
                 description: "Prijavite se na naš e-bilten za posebne ponude, događaje i najave.",
                 placeholder: "Vaša e-mail adresa",
-                button: "Pretplati se"
+                button: "Pretplati se",
+                success: "Uspešna pretplata!",
+                error: "Pretplata nije uspela."
             },
             brandDesc: "Moderno iskustvo smeštaja koje spaja udobnost i luksuz u blizini beogradskog aerodroma. Tu smo da se osećate kao kod kuće.",
             sections: {
@@ -389,7 +393,9 @@ export const translations = {
                 title: "随时了解 Kimmiy",
                 description: "订阅我们的电子通讯，获取特别优惠、活动和公告。",
                 placeholder: "您的电子邮件地址",
-                button: "订阅"
+                button: "订阅",
+                success: "订阅成功！",
+                error: "订阅失败。"
             },
             brandDesc: "贝尔格莱德机场附近的舒适与奢华相结合的现代住宿体验。我们在这里让您有宾至如归的感觉。",
             sections: {

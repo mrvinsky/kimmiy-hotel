@@ -17,7 +17,6 @@ import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 
 @Controller('bookings')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) { }
 
@@ -27,30 +26,35 @@ export class BookingsController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   findAll() {
     return this.bookingsService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   findOne(@Param('id') id: string) {
     return this.bookingsService.findOne(+id);
   }
 
   @Patch(':id/approve')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   approve(@Param('id') id: string) {
     return this.bookingsService.approve(+id);
   }
 
   @Patch(':id/reject')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   reject(@Param('id') id: string) {
     return this.bookingsService.reject(+id);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   remove(@Param('id') id: string) {
     return this.bookingsService.remove(+id);

@@ -13,6 +13,10 @@ export class CreateRoomDto {
   @IsNumber()
   capacity: number;
 
+  @IsNumber()
+  @IsOptional()
+  totalStock?: number;
+
   @IsArray()
   @IsString({ each: true })
   @IsOptional()

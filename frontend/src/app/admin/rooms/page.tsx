@@ -22,7 +22,7 @@ export default function AdminRoomsPage() {
   }, []);
 
   const deleteRoom = async (id: number) => {
-    if (!confirm('Bu odayı silmek istediğinize emin misiniz?')) return;
+    if (!confirm('Are you sure you want to delete this room?')) return;
     try {
       await api.delete(`/rooms/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
@@ -30,20 +30,20 @@ export default function AdminRoomsPage() {
       loadRooms();
     } catch (err) {
       console.error(err);
-      alert('Silme işlemi başarısız');
+      alert('Delete failed');
     }
   };
 
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Oda Yönetimi</h1>
+        <h1 className="text-3xl font-bold">Room Management</h1>
         <Link
           href="/admin/rooms/new"
           className="bg-zinc-900 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-zinc-800"
         >
           <Plus className="w-4 h-4" />
-          <span>Yeni Oda Ekle</span>
+          <span>Add New Room</span>
         </Link>
       </div>
 
@@ -52,10 +52,10 @@ export default function AdminRoomsPage() {
           <thead className="bg-gray-50 dark:bg-zinc-800/50">
             <tr>
               <th className="p-4 font-medium text-zinc-500 text-sm">ID</th>
-              <th className="p-4 font-medium text-zinc-500 text-sm">Adı</th>
-              <th className="p-4 font-medium text-zinc-500 text-sm">Fiyat</th>
-              <th className="p-4 font-medium text-zinc-500 text-sm">Kapasite</th>
-              <th className="p-4 font-medium text-zinc-500 text-sm text-right">İşlemler</th>
+              <th className="p-4 font-medium text-zinc-500 text-sm">Name</th>
+              <th className="p-4 font-medium text-zinc-500 text-sm">Price</th>
+              <th className="p-4 font-medium text-zinc-500 text-sm">Capacity</th>
+              <th className="p-4 font-medium text-zinc-500 text-sm text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -66,15 +66,15 @@ export default function AdminRoomsPage() {
                   {typeof room.name === 'object' ? (room.name['EN'] || Object.values(room.name)[0]) : room.name}
                 </td>
                 <td className="p-4">€{room.price}</td>
-                <td className="p-4">{room.capacity} Kişi</td>
+                <td className="p-4">{room.capacity} People</td>
                 <td className="p-4 text-right space-x-2">
-                  <Link href={`/admin/rooms/${room.id}`} className="text-blue-500 hover:text-blue-600 inline-block" title="Düzenle">
+                  <Link href={`/admin/rooms/${room.id}`} className="text-blue-500 hover:text-blue-600 inline-block" title="Edit">
                     <Pencil className="w-4 h-4" />
                   </Link>
                   <button
                     onClick={() => deleteRoom(room.id)}
                     className="text-red-500 hover:text-red-600"
-                    title="Sil"
+                    title="Delete"
                   >
                     <Trash className="w-4 h-4" />
                   </button>
@@ -83,7 +83,7 @@ export default function AdminRoomsPage() {
             ))}
             {rooms.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-8 text-center text-zinc-500">Kayıtlı oda bulunamadı.</td>
+                <td colSpan={5} className="p-8 text-center text-zinc-500">No rooms found.</td>
               </tr>
             )}
           </tbody>

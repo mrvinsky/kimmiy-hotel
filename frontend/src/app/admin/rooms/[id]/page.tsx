@@ -25,6 +25,7 @@ export default function EditRoomPage() {
                     // Populate fields
                     setValue('price', room.price);
                     setValue('capacity', room.capacity);
+                    setValue('totalStock', room.totalStock || 1);
                     setImages(room.images || []);
 
                     // Handle multi-language fields
@@ -50,7 +51,7 @@ export default function EditRoomPage() {
                 })
                 .catch(err => {
                     console.error(err);
-                    alert('Oda bilgileri yüklenemedi');
+                    alert('Could not load room details');
                     router.push('/admin/rooms');
                 });
         }
@@ -74,6 +75,7 @@ export default function EditRoomPage() {
                 description,
                 price: +data.price,
                 capacity: +data.capacity,
+                totalStock: +data.totalStock,
                 images: images
             }, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
@@ -81,7 +83,7 @@ export default function EditRoomPage() {
             router.push('/admin/rooms');
         } catch (err) {
             console.error(err);
-            alert('Güncelleme başarısız');
+            alert('Update failed');
         }
     };
 
@@ -91,11 +93,11 @@ export default function EditRoomPage() {
         { id: 'ZH', label: '中文 🇨🇳' },
     ];
 
-    if (loading) return <div>Yükleniyor...</div>;
+    if (loading) return <div>Loading...</div>;
 
     return (
         <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold mb-8">Odayı Düzenle</h1>
+            <h1 className="text-2xl font-bold mb-8">Edit Room</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white dark:bg-zinc-900 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-800">
 
@@ -121,19 +123,19 @@ export default function EditRoomPage() {
                     {tabs.map((tab) => (
                         <div key={tab.id} className={activeTab === tab.id ? 'block' : 'hidden'}>
                             <div className="mb-4">
-                                <label className="block text-sm font-medium mb-1">Oda Adı ({tab.label})</label>
+                                <label className="block text-sm font-medium mb-1">Room Name ({tab.label})</label>
                                 <input
                                     {...register(`name_${tab.id}`, { required: true })}
-                                    placeholder={`Örn: Deluxe Room (${tab.id})`}
+                                    placeholder={`e.g. Deluxe Room (${tab.id})`}
                                     className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 focus:ring-2 focus:ring-blue-500 outline-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">Açıklama ({tab.label})</label>
+                                <label className="block text-sm font-medium mb-1">Description ({tab.label})</label>
                                 <textarea
                                     {...register(`description_${tab.id}`, { required: true })}
                                     rows={4}
-                                    placeholder={`Oda açıklaması... (${tab.id})`}
+                                    placeholder={`Room description... (${tab.id})`}
                                     className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 focus:ring-2 focus:ring-blue-500 outline-none"
                                 />
                             </div>
@@ -141,9 +143,9 @@ export default function EditRoomPage() {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
+                <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
                     <div>
-                        <label className="block text-sm font-medium mb-1">Fiyat (€)</label>
+                        <label className="block text-sm font-medium mb-1">Price (€)</label>
                         <input
                             type="number"
                             {...register('price', { required: true })}
@@ -151,17 +153,25 @@ export default function EditRoomPage() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1">Kapasite</label>
+                        <label className="block text-sm font-medium mb-1">Capacity</label>
                         <input
                             type="number"
                             {...register('capacity', { required: true })}
                             className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
                         />
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Room Count</label>
+                        <input
+                            type="number"
+                            {...register('totalStock', { required: true, min: 1 })}
+                            className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
+                        />
+                    </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-4">Görseller</label>
+                    <label className="block text-sm font-medium mb-4">Images</label>
                     <ImageUpload
                         value={images}
                         onChange={(newImages) => setImages(newImages)}
@@ -170,10 +180,10 @@ export default function EditRoomPage() {
 
                 <div className="flex gap-4">
                     <button type="button" onClick={() => router.back()} className="w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-bold hover:bg-gray-300 transition-colors">
-                        İptal
+                        Cancel
                     </button>
                     <button type="submit" className="w-full bg-zinc-900 text-white py-3 rounded-lg font-bold hover:bg-zinc-800 transition-colors">
-                        Güncelle
+                        Update
                     </button>
                 </div>
             </form>
