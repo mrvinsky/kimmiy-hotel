@@ -1,0 +1,35 @@
+# System Files
+.DS_Store
+Thumbs.db
+*.log
+
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+
+# Build Artifacts
+dist/
+build/
+.next/
+coverage/
+
+# Database
+postgres-data/
+*.sqlite
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker
+docker-compose.override.yml
