@@ -52,10 +52,15 @@ export function ImageUpload({ value = [], onChange }: ImageUploadProps) {
 
     const getFullUrl = (path: string) => {
         if (path.startsWith('http')) return path;
-        // Assuming backend is at localhost:3001 or using proxy
-        // Since we are in nextjs, we might need NEXT_PUBLIC_API_URL
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-        // Check if path starts with slash
+
+        let baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+        // Fix: If API URL ends with /api, remove it for static file serving
+        // because ServeStaticModule serves at root /uploads, not /api/uploads
+        if (baseUrl.endsWith('/api')) {
+            baseUrl = baseUrl.slice(0, -4);
+        }
+
         const normalizedPath = path.startsWith('/') ? path : `/${path}`;
         return `${baseUrl}${normalizedPath}`;
     };
