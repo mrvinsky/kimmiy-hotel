@@ -29,7 +29,7 @@ export function Navbar() {
     const currentFlag = languages.find(l => l.code === language)?.flag || '🇹🇷';
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 dark:bg-zinc-900/80 dark:border-zinc-800">
+        <nav className="fixed top-4 left-4 right-4 z-50 bg-white/35 backdrop-blur-xl border border-white/25 dark:bg-zinc-900/40 dark:border-white/10 rounded-2xl shadow-lg shadow-black/5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
@@ -61,7 +61,7 @@ export function Navbar() {
                                 </button>
 
                                 {langMenuOpen && (
-                                    <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 py-2 overflow-hidden">
+                                    <div className="absolute top-full right-0 mt-2 w-48 bg-white/80 backdrop-blur-xl dark:bg-zinc-900/80 rounded-xl shadow-xl border border-white/20 dark:border-white/10 py-2 overflow-hidden">
                                         {languages.map((langItem) => (
                                             <button
                                                 key={langItem.code}
@@ -109,7 +109,7 @@ export function Navbar() {
 
             {/* Mobile Language Menu (Dropdown style below header for mobile) */}
             {langMenuOpen && (
-                <div className="md:hidden absolute top-20 right-4 w-48 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 py-2 overflow-hidden z-50">
+                <div className="md:hidden absolute top-20 right-4 w-48 bg-white/80 backdrop-blur-xl dark:bg-zinc-900/80 rounded-xl shadow-xl border border-white/20 dark:border-white/10 py-2 overflow-hidden z-50">
                     {languages.map((langItem) => (
                         <button
                             key={langItem.code}
@@ -128,7 +128,7 @@ export function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden bg-white border-b dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 absolute w-full z-40">
+                <div className="md:hidden bg-white/15 backdrop-blur-xl dark:bg-zinc-900/30 border-t border-white/10 absolute w-full z-40 rounded-b-2xl">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         {navLinks.map((link) => (
                             <Link

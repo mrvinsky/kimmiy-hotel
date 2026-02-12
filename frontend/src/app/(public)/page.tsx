@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import { LocationGallery } from '@/components/ui/LocationGallery';
 import { ScrollingGallery } from '@/components/ui/ScrollingGallery';
 import { Hero } from '@/components/ui/Hero';
@@ -13,52 +15,156 @@ export default function HomePage() {
     return (
         <div className="relative">
 
-            {/* Split Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center bg-zinc-50 dark:bg-zinc-900 overflow-hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 py-12 md:py-0">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        {/* Text Content */}
-                        <div className="space-y-8 animate-fade-in-up">
-                            <div>
-                                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
-                                    {t.hero.welcome} <br />
-                                    <span className="text-blue-600 dark:text-blue-400">{t.hero.welcomeSpan}</span>
-                                </h1>
-                                <h2 className="text-xl sm:text-2xl text-zinc-500 dark:text-zinc-400 font-light">
-                                    {t.hero.subtitle}
-                                </h2>
-                            </div>
+            {/* Hero Section - Full Background with Subtle Neon & Star Rain */}
+            {(() => {
+                const [isHovered, setIsHovered] = React.useState(false);
+                const stars = React.useMemo(() =>
+                    Array.from({ length: 60 }, (_, i) => ({
+                        id: i,
+                        top: `${-(Math.random() * 15)}%`,
+                        right: `${Math.random() * 100}%`,
+                        size: 2 + Math.random() * 3,
+                        duration: 4 + Math.random() * 3,
+                        delay: Math.random() * 4,
+                        brightness: 0.4 + Math.random() * 0.4,
+                    })), []
+                );
 
-                            <p className="text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed border-l-4 border-blue-500 pl-6">
-                                {t.hero.description}
-                            </p>
 
-                            <Link
-                                href="/rooms"
-                                className="inline-flex items-center space-x-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-all hover:scale-105 shadow-xl hover:shadow-2xl"
-                            >
-                                <span>{t.hero.cta}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                                </svg>
-                            </Link>
+                return (
+                    <section
+                        className={`relative min-h-[90vh] flex items-center overflow-hidden cursor-pointer`}
+                        style={{ fontFamily: 'var(--font-playfair), serif' }}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                    >
+                        <style>{`
+                            @keyframes starfall {
+                                0% { transform: translate(0, 0); opacity: 1; }
+                                70% { opacity: 0.8; }
+                                100% { transform: translate(-110vw, 110vh); opacity: 0; }
+                            }
+                        `}</style>
+
+                        {/* Background Image */}
+                        <div
+                            className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-out"
+                            style={{
+                                backgroundImage: 'url(https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop)',
+                                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                            }}
+                        ></div>
+
+                        {/* Dark gradient overlay - bottom to top */}
+                        <div
+                            className="absolute inset-0 transition-all duration-700 ease-out"
+                            style={{
+                                background: isHovered
+                                    ? 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.1) 100%)'
+                                    : 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)',
+                            }}
+                        ></div>
+
+                        {/* Star Rain - neon glow */}
+                        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
+                            {stars.map((star) => (
+                                <div
+                                    key={star.id}
+                                    style={{
+                                        position: 'absolute',
+                                        top: star.top,
+                                        right: star.right,
+                                        width: `${star.size}px`,
+                                        height: `${star.size}px`,
+                                        background: 'rgba(180, 220, 255, 1)',
+                                        borderRadius: '50%',
+                                        boxShadow: `0 0 ${star.size * 3}px ${star.size}px rgba(96,165,250,${star.brightness}), 0 0 ${star.size * 8}px ${star.size * 2.5}px rgba(96,165,250,${star.brightness * 0.4})`,
+                                        opacity: isHovered ? 1 : 0,
+                                        animation: isHovered
+                                            ? `starfall ${star.duration}s ${star.delay}s linear infinite`
+                                            : 'none',
+                                        transition: 'opacity 0.5s ease',
+                                    }}
+                                />
+                            ))}
                         </div>
 
-                        {/* Image Side */}
-                        <div className="relative h-[400px] lg:h-[600px] rounded-[3rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 group">
-                            <div
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop)' }}
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/40 to-transparent"></div>
+                        {/* Content */}
+                        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center py-12 md:py-0">
+                            <div className="space-y-8 animate-fade-in-up transition-all duration-700">
+                                <div>
+                                    {/* Title - subtle neon glow, slightly brighter on hover */}
+                                    <h1
+                                        className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mb-4 transition-all duration-700"
+                                        style={{
+                                            textShadow: isHovered
+                                                ? '0 0 12px rgba(96,165,250,0.4), 0 0 30px rgba(96,165,250,0.25)'
+                                                : '0 0 6px rgba(96,165,250,0.25), 0 0 18px rgba(96,165,250,0.15)',
+                                        }}
+                                    >
+                                        {t.hero.welcome} <br />
+                                        <span
+                                            className="text-blue-400 transition-all duration-700"
+                                            style={{
+                                                color: isHovered ? undefined : undefined,
+                                                textShadow: isHovered
+                                                    ? '0 0 15px rgba(96,165,250,0.5), 0 0 35px rgba(96,165,250,0.3)'
+                                                    : '0 0 8px rgba(96,165,250,0.35), 0 0 20px rgba(96,165,250,0.2)',
+                                            }}
+                                        >
+                                            {t.hero.welcomeSpan}
+                                        </span>
+                                    </h1>
+
+                                    {/* Subtitle */}
+                                    <h2
+                                        className="text-xl sm:text-2xl font-light italic transition-all duration-700"
+                                        style={{
+                                            color: isHovered ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.6)',
+                                            textShadow: isHovered ? '0 0 10px rgba(255,255,255,0.25)' : 'none',
+                                        }}
+                                    >
+                                        {t.hero.subtitle}
+                                    </h2>
+                                </div>
+
+                                {/* Description */}
+                                <p
+                                    className="text-lg leading-relaxed max-w-2xl mx-auto text-left transition-all duration-700 border rounded-xl px-6 py-4 backdrop-blur-sm"
+                                    style={{
+                                        color: isHovered ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.6)',
+                                        borderColor: isHovered ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.15)',
+                                        backgroundColor: isHovered ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.15)',
+                                        textShadow: isHovered ? '0 0 8px rgba(96,165,250,0.2)' : 'none',
+                                    }}
+                                >
+                                    {t.hero.description}
+                                </p>
+
+                                {/* CTA Button */}
+                                <Link
+                                    href="/rooms"
+                                    className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-700 hover:scale-105 shadow-xl"
+                                    style={{
+                                        fontFamily: 'var(--font-geist-sans), sans-serif',
+                                        borderColor: isHovered ? 'rgba(96,165,250,0.4)' : 'rgba(255,255,255,0.2)',
+                                        boxShadow: isHovered ? '0 0 15px rgba(96,165,250,0.15)' : undefined,
+                                        backgroundColor: isHovered ? 'rgba(96,165,250,0.1)' : 'rgba(255,255,255,0.1)',
+                                    }}
+                                >
+                                    <span>{t.hero.cta}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                </Link>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 w-1/3 h-full bg-blue-50/50 dark:bg-blue-900/10 -skew-x-12 translate-x-32 z-0"></div>
-            </section>
+                        {/* Bottom gradient fade */}
+                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-50 dark:from-zinc-900 to-transparent z-10"></div>
+                    </section>
+                );
+            })()}
 
             {/* Gallery Section */}
             <section className="py-24 bg-zinc-50 dark:bg-zinc-900 border-y border-zinc-200 dark:border-zinc-800">

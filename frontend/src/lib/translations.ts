@@ -154,6 +154,7 @@ export const translations = {
             successDesc: "Your reservation request has been sent successfully. We will get back to you as soon as possible.",
             newRequest: "Send a new request",
             labels: {
+                dates: "Select Dates",
                 checkIn: "Check-in Date",
                 checkOut: "Check-out Date",
                 adults: "Adults",
@@ -171,6 +172,8 @@ export const translations = {
                 emailRequired: "Email is required",
                 phoneRequired: "Phone is required"
             },
+            datesRequired: "Please select both check-in and check-out dates.",
+            unavailable: "Selected dates are not available.",
             submit: "Send Request",
             submitting: "Sending...",
             error: "An error occurred. Please try again."
@@ -178,6 +181,7 @@ export const translations = {
     },
     SR: {
         hero: {
+            // ... (keep existing)
             welcome: "Dobrodošli u",
             welcomeSpan: "Hotel Kimmiy",
             subtitle: "Vaš Dom u Beogradu, Udobnost Blizu Aerodroma",
@@ -307,6 +311,7 @@ export const translations = {
             successDesc: "Vaš zahtev za rezervaciju je uspešno poslat. Javićemo vam se u najkraćem roku.",
             newRequest: "Pošalji novi zahtev",
             labels: {
+                dates: "Izaberite Datume",
                 checkIn: "Datum Prijave",
                 checkOut: "Datum Odjave",
                 adults: "Odrasli",
@@ -324,6 +329,8 @@ export const translations = {
                 emailRequired: "E-mail je obavezan",
                 phoneRequired: "Telefon je obavezan"
             },
+            datesRequired: "Molimo izaberite datume prijave i odjave.",
+            unavailable: "Izabrani datumi nisu dostupni.",
             submit: "Pošalji Zahtev",
             submitting: "Šalje se...",
             error: "Došlo je do greške. Molimo pokušajte ponovo."
@@ -460,6 +467,7 @@ export const translations = {
             successDesc: "您的预订请求已成功发送。我们将尽快回复您。",
             newRequest: "发送新请求",
             labels: {
+                dates: "选择日期",
                 checkIn: "入住日期",
                 checkOut: "退房日期",
                 adults: "成人",
@@ -477,6 +485,8 @@ export const translations = {
                 emailRequired: "电子邮件为必填项",
                 phoneRequired: "电话为必填项"
             },
+            datesRequired: "请选择入住和退房日期。",
+            unavailable: "所选日期不可用。",
             submit: "发送请求",
             submitting: "发送中...",
             error: "发生错误。请重试。"

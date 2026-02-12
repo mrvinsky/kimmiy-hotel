@@ -59,4 +59,9 @@ export class BookingsController {
   remove(@Param('id') id: string) {
     return this.bookingsService.remove(+id);
   }
+
+  @Get('availability/:roomId')
+  getAvailability(@Param('roomId') roomId: string) {
+    return this.bookingsService.getRoomAvailability(+roomId);
+  }
 }

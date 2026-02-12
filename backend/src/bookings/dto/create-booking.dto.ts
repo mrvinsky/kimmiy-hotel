@@ -21,10 +21,10 @@ export class CreateBookingDto {
   guestPhone: string;
 
   @IsDateString()
-  checkInDate: Date;
+  checkInDate: string;
 
   @IsDateString()
-  checkOutDate: Date;
+  checkOutDate: string;
 
   @IsNumber()
   adults: number;
