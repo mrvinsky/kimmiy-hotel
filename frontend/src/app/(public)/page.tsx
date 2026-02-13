@@ -50,7 +50,7 @@ export default function HomePage() {
                         <div
                             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-out"
                             style={{
-                                backgroundImage: 'url(https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop)',
+                                backgroundImage: 'url(/hero-bg.jpg)',
                                 transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                             }}
                         ></div>
