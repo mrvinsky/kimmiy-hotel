@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-kimmiyhotel}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Optional: remove if you don't want external DB access
+    networks:
+      - kimmiy_network
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    networks:
+      - kimmiy_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-kimmiyhotel}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey}
+      PORT: 3000
+    volumes:
+      - ./backend/uploads:/app/uploads # Persist uploads
+    expose:
+      - "3000"
+    ports:
+      - "3001:3000" # Expose backend on port 3001
+    depends_on:
+      - db
+      - redis
+    networks:
+      - kimmiy_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      # Internal URL for server-side fetches and rewrites
+      BACKEND_INTERNAL_URL: http://backend:3000
+      # Public URL for client-side (browser) access - change this to your specialized domain
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+      PORT: 3000
+    expose:
+      - "3000"
+    ports:
+      - "80:3000" # Expose frontend on port 80 (standard HTTP)
+    depends_on:
+      - backend
+    networks:
+      - kimmiy_network
+
+volumes:
+  postgres_data:
+
+
+networks:
+  kimmiy_network:
