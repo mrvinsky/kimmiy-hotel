@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form';
 import api from '@/lib/api';
 import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 
 type Language = 'EN' | 'SR' | 'ZH';
-
-import { ImageUpload } from '@/components/admin/ImageUpload';
 
 export default function EditRoomPage() {
     const { register, handleSubmit, setValue, reset } = useForm();
@@ -27,6 +26,10 @@ export default function EditRoomPage() {
                     setValue('capacity', room.capacity);
                     setValue('totalStock', room.totalStock || 1);
                     setImages(room.images || []);
+                    if (room.amenities && Array.isArray(room.amenities)) {
+                        setValue('amenities', room.amenities.join(', '));
+                    }
+
 
                     // Handle multi-language fields
                     if (typeof room.name === 'object') {
@@ -70,13 +73,19 @@ export default function EditRoomPage() {
                 ZH: data.description_ZH
             };
 
+            // Process amenities
+            const amenities = data.amenities
+                ? data.amenities.split(',').map((item: string) => item.trim()).filter(Boolean)
+                : [];
+
             await api.patch(`/rooms/${id}`, {
                 name,
                 description,
                 price: +data.price,
                 capacity: +data.capacity,
                 totalStock: +data.totalStock,
-                images: images
+                images: images,
+                amenities: amenities
             }, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             });
@@ -143,7 +152,7 @@ export default function EditRoomPage() {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
+                <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
                     <div>
                         <label className="block text-sm font-medium mb-1">Price (€)</label>
                         <input
@@ -167,6 +176,17 @@ export default function EditRoomPage() {
                             {...register('totalStock', { required: true, min: 1 })}
                             className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
                         />
+                    </div>
+                    {/* Amenities Field */}
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Amenities (comma separated)</label>
+                        <input
+                            type="text"
+                            {...register('amenities')}
+                            placeholder="wifi, tv, ac, minibar..."
+                            className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
+                        />
+                        <p className="text-xs text-zinc-500 mt-1">Keys: wifi, tv, ac, minibar, tea_coffee...</p>
                     </div>
                 </div>
 

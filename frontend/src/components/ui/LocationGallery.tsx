@@ -4,29 +4,32 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const images = [
-    {
-        src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop',
-        alt: 'Dış Görünüm',
-        title: 'Merkezi Konum',
-        desc: 'Şehrin kalbinde, her yere yakın.'
-    },
-    {
-        src: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1964&auto=format&fit=crop',
-        alt: 'Lüks Odalar',
-        title: 'Konforlu Odalar',
-        desc: 'Modern tasarım ve rahatlık bir arada.'
-    },
-    {
-        src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop',
-        alt: 'Restoran',
-        title: 'Leziz Mutfak',
-        desc: 'Dünya mutfağından seçkin lezzetler.'
-    }
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export function LocationGallery() {
+    const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const images = [
+        {
+            src: '/location/1.jpg',
+            alt: t.map.gallery[0].title,
+            title: t.map.gallery[0].title,
+            desc: t.map.gallery[0].desc
+        },
+        {
+            src: '/location/2.jpg',
+            alt: t.map.gallery[1].title,
+            title: t.map.gallery[1].title,
+            desc: t.map.gallery[1].desc
+        },
+        {
+            src: '/location/3.jpg',
+            alt: t.map.gallery[2].title,
+            title: t.map.gallery[2].title,
+            desc: t.map.gallery[2].desc
+        }
+    ];
 
     useEffect(() => {
         const timer = setInterval(() => {

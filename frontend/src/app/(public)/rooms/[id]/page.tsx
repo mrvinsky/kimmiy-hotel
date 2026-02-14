@@ -15,6 +15,7 @@ interface Room {
   price: number;
   capacity: number;
   images: string[];
+  amenities?: string[];
 }
 
 export default function RoomDetailPage() {
@@ -73,26 +74,29 @@ export default function RoomDetailPage() {
                     <span className="text-2xl">👥</span>
                     <span className="font-medium text-zinc-700 dark:text-zinc-300">{room.capacity} {t.rooms.capacity}</span>
                   </div>
-                  <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/10 hover:bg-white/60 transition-colors">
-                    <span className="text-2xl">📐</span>
-                    <span className="font-medium text-zinc-700 dark:text-zinc-300">35 m²</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/10 hover:bg-white/60 transition-colors">
-                    <span className="text-2xl">📶</span>
-                    <span className="font-medium text-zinc-700 dark:text-zinc-300">{t.rooms.features.wifi}</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/10 hover:bg-white/60 transition-colors">
-                    <span className="text-2xl">❄️</span>
-                    <span className="font-medium text-zinc-700 dark:text-zinc-300">{t.rooms.features.ac}</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/10 hover:bg-white/60 transition-colors">
-                    <span className="text-2xl">📺</span>
-                    <span className="font-medium text-zinc-700 dark:text-zinc-300">{t.rooms.features.tv}</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/10 hover:bg-white/60 transition-colors">
-                    <span className="text-2xl">🛁</span>
-                    <span className="font-medium text-zinc-700 dark:text-zinc-300">{t.rooms.features.minibar}</span>
-                  </div>
+
+                  {room.amenities && room.amenities.map((key, idx) => {
+                    const icons: Record<string, string> = {
+                      wifi: '📶',
+                      ac: '❄️',
+                      tv: '📺',
+                      minibar: '🍷',
+                      tea_coffee: '☕',
+                      balcony: '🌅',
+                      sofa: '🛋️',
+                      wireless_charging: '⚡',
+                      safe: '🔒',
+                      hair_dryer: '💨'
+                    };
+                    const label = (t.rooms.features as any)[key] || key;
+
+                    return (
+                      <div key={idx} className="flex items-center gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/10 hover:bg-white/60 transition-colors">
+                        <span className="text-2xl">{icons[key] || '✨'}</span>
+                        <span className="font-medium text-zinc-700 dark:text-zinc-300">{label}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

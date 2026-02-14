@@ -24,6 +24,9 @@ export class Room {
   @Column('simple-array', { nullable: true })
   images: string[];
 
+  @Column('simple-array', { nullable: true })
+  amenities: string[];
+
   @OneToMany(() => Booking, (booking) => booking.room)
   bookings: Booking[];
 }

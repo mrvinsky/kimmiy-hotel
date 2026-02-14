@@ -50,7 +50,7 @@ export default function HomePage() {
                         <div
                             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-out"
                             style={{
-                                backgroundImage: 'url(/hero-bg.jpg)',
+                                backgroundImage: 'url(/hero-bg-final.jpg)',
                                 transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                             }}
                         ></div>
@@ -76,9 +76,9 @@ export default function HomePage() {
                                         right: star.right,
                                         width: `${star.size}px`,
                                         height: `${star.size}px`,
-                                        background: 'rgba(180, 220, 255, 1)',
+                                        background: 'rgba(255, 255, 255, 1)',
                                         borderRadius: '50%',
-                                        boxShadow: `0 0 ${star.size * 3}px ${star.size}px rgba(96,165,250,${star.brightness}), 0 0 ${star.size * 8}px ${star.size * 2.5}px rgba(96,165,250,${star.brightness * 0.4})`,
+                                        boxShadow: `0 0 ${star.size * 4}px ${star.size * 1.5}px rgba(255,255,255,${star.brightness}), 0 0 ${star.size * 10}px ${star.size * 4}px rgba(255,255,255,${star.brightness * 0.6})`,
                                         opacity: isHovered ? 1 : 0,
                                         animation: isHovered
                                             ? `starfall ${star.duration}s ${star.delay}s linear infinite`
@@ -94,52 +94,26 @@ export default function HomePage() {
                             <div className="space-y-8 animate-fade-in-up transition-all duration-700">
                                 <div>
                                     {/* Title - subtle neon glow, slightly brighter on hover */}
-                                    <h1
-                                        className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mb-4 transition-all duration-700"
-                                        style={{
-                                            textShadow: isHovered
-                                                ? '0 0 12px rgba(96,165,250,0.4), 0 0 30px rgba(96,165,250,0.25)'
-                                                : '0 0 6px rgba(96,165,250,0.25), 0 0 18px rgba(96,165,250,0.15)',
-                                        }}
-                                    >
-                                        {t.hero.welcome} <br />
-                                        <span
-                                            className="text-blue-400 transition-all duration-700"
-                                            style={{
-                                                color: isHovered ? undefined : undefined,
-                                                textShadow: isHovered
-                                                    ? '0 0 15px rgba(96,165,250,0.5), 0 0 35px rgba(96,165,250,0.3)'
-                                                    : '0 0 8px rgba(96,165,250,0.35), 0 0 20px rgba(96,165,250,0.2)',
-                                            }}
-                                        >
+                                    {/* Title - Clean, Thin, No Shadow */}
+                                    <h1 className="text-white mb-6 transition-all duration-700 font-sf-pro">
+                                        <span className="block text-3xl sm:text-4xl md:text-5xl font-light tracking-wide mb-6 opacity-90">
+                                            {t.hero.welcome}
+                                        </span>
+                                        <span className="block text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight uppercase">
                                             {t.hero.welcomeSpan}
                                         </span>
                                     </h1>
 
                                     {/* Subtitle */}
                                     <h2
-                                        className="text-xl sm:text-2xl font-light italic transition-all duration-700"
-                                        style={{
-                                            color: isHovered ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.6)',
-                                            textShadow: isHovered ? '0 0 10px rgba(255,255,255,0.25)' : 'none',
-                                        }}
+                                        className="text-2xl sm:text-3xl font-thin tracking-wider text-white/80 transition-all duration-700 italic"
                                     >
                                         {t.hero.subtitle}
                                     </h2>
                                 </div>
 
                                 {/* Description */}
-                                <p
-                                    className="text-lg leading-relaxed max-w-2xl mx-auto text-left transition-all duration-700 border rounded-xl px-6 py-4 backdrop-blur-sm"
-                                    style={{
-                                        color: isHovered ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.6)',
-                                        borderColor: isHovered ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.15)',
-                                        backgroundColor: isHovered ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.15)',
-                                        textShadow: isHovered ? '0 0 8px rgba(96,165,250,0.2)' : 'none',
-                                    }}
-                                >
-                                    {t.hero.description}
-                                </p>
+
 
                                 {/* CTA Button */}
                                 <Link
@@ -207,7 +181,7 @@ export default function HomePage() {
                             <div className="relative h-[500px] lg:h-[600px] rounded-[2rem] overflow-hidden shadow-2xl rotate-3 transition-transform duration-500 group-hover:rotate-0">
                                 <div
                                     className="absolute inset-0 bg-cover bg-center"
-                                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop)' }}
+                                    style={{ backgroundImage: 'url(/about-us.jpg)' }}
                                 ></div>
                                 <div className="absolute inset-0 bg-black/10"></div>
                             </div>
@@ -252,7 +226,7 @@ export default function HomePage() {
                         {t.services.title} <span className="text-blue-600 dark:text-blue-400">{t.services.titleSpan}</span>
                     </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {/* Transfer Card */}
                         <div className="group relative h-96 rounded-[2rem] overflow-hidden shadow-xl cursor-pointer">
                             <div
@@ -265,7 +239,7 @@ export default function HomePage() {
                                     <span className="text-3xl">✈️</span>
                                 </div>
                                 <h3 className="text-2xl font-bold mb-3">{t.services.transfer.title}</h3>
-                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 text-sm">
                                     {t.services.transfer.desc}
                                 </p>
                             </div>
@@ -283,7 +257,7 @@ export default function HomePage() {
                                     <span className="text-3xl">📶</span>
                                 </div>
                                 <h3 className="text-2xl font-bold mb-3">{t.services.wifi.title}</h3>
-                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 text-sm">
                                     {t.services.wifi.desc}
                                 </p>
                             </div>
@@ -301,8 +275,26 @@ export default function HomePage() {
                                     <span className="text-3xl">🅿️</span>
                                 </div>
                                 <h3 className="text-2xl font-bold mb-3">{t.services.parking.title}</h3>
-                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 text-sm">
                                     {t.services.parking.desc}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Spa & Wellness Card */}
+                        <div className="group relative h-96 rounded-[2rem] overflow-hidden shadow-xl cursor-pointer">
+                            <div
+                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop)' }}
+                            ></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                            <div className="absolute bottom-0 left-0 p-8 text-white translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                                <div className="mb-4 bg-white/10 w-14 h-14 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/20">
+                                    <span className="text-3xl">💆‍♀️</span>
+                                </div>
+                                <h3 className="text-2xl font-bold mb-3">{t.services.spa.title}</h3>
+                                <p className="text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 text-sm">
+                                    {t.services.spa.desc}
                                 </p>
                             </div>
                         </div>

@@ -20,35 +20,63 @@ export function Navbar() {
         { href: '/contact', label: t.navbar.contact },
     ];
 
-    const languages: { code: Language; label: string; flag: string }[] = [
-        { code: 'EN', label: 'English', flag: '🇬🇧' },
-        { code: 'SR', label: 'Srpski', flag: '🇷🇸' },
-        { code: 'ZH', label: '中文', flag: '🇨🇳' },
+    const languages: { code: Language; label: string; }[] = [
+        { code: 'EN', label: 'English' },
+        { code: 'SR', label: 'Srpski' },
+        { code: 'ZH', label: '中文' },
     ];
 
-    const currentFlag = languages.find(l => l.code === language)?.flag || '🇹🇷';
-
     return (
-        <nav className="fixed top-4 left-4 right-4 z-50 bg-white/35 backdrop-blur-xl border border-white/25 dark:bg-zinc-900/40 dark:border-white/10 rounded-2xl shadow-lg shadow-black/5">
+        <nav className="fixed top-4 left-4 right-4 z-50 bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    {/* Logo */}
-                    <Link href="/" className="flex-shrink-0">
+                <div className="flex items-center justify-between h-20 relative">
+
+                    {/* Desktop Logo (Left) */}
+                    <Link href="/" className="hidden md:block flex-shrink-0 select-none">
                         <img
-                            src="/logo.jpg"
+                            src="/logo.png"
                             alt="Kimmiy Hotel"
-                            className="h-12 w-auto object-contain rounded-md"
+                            className="h-[72px] w-auto object-contain rounded-md opacity-90 hover:opacity-100 transition-opacity"
                         />
                     </Link>
 
-                    {/* Desktop Menu */}
+                    {/* Mobile Hamburger Button (Left) */}
+                    <div className="md:hidden flex items-center z-20">
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="inline-flex items-center justify-center p-2 rounded-lg text-zinc-300 hover:text-white hover:bg-white/10 focus:outline-none transition-colors"
+                        >
+                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        </button>
+                    </div>
+
+                    {/* Mobile Logo (Absolute Center) */}
+                    <Link href="/" className="md:hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-shrink-0 select-none">
+                        <img
+                            src="/logo.png"
+                            alt="Kimmiy Hotel"
+                            className="h-14 w-auto object-contain rounded-md opacity-90 hover:opacity-100 transition-opacity"
+                        />
+                    </Link>
+
+                    {/* Mobile Language Button (Right) */}
+                    <div className="md:hidden flex items-center z-20">
+                        <button
+                            onClick={() => setLangMenuOpen(!langMenuOpen)}
+                            className="flex items-center gap-1 bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-zinc-300"
+                        >
+                            <span className="text-sm font-bold">{language}</span>
+                        </button>
+                    </div>
+
+                    {/* Desktop Menu (Hidden on Mobile) */}
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-center space-x-6">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                                    className="text-zinc-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
                                 >
                                     {link.label}
                                 </Link>
@@ -58,14 +86,14 @@ export function Navbar() {
                             <div className="relative">
                                 <button
                                     onClick={() => setLangMenuOpen(!langMenuOpen)}
-                                    className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-3 py-2 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                                    className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
                                 >
-                                    <span className="text-lg">{currentFlag}</span>
-                                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{language}</span>
+                                    <Globe className="w-4 h-4 text-zinc-400" />
+                                    <span className="text-sm font-bold text-zinc-300">{language}</span>
                                 </button>
 
                                 {langMenuOpen && (
-                                    <div className="absolute top-full right-0 mt-2 w-48 bg-white/80 backdrop-blur-xl dark:bg-zinc-900/80 rounded-xl shadow-xl border border-white/20 dark:border-white/10 py-2 overflow-hidden">
+                                    <div className="absolute top-full right-0 mt-2 w-32 bg-zinc-950 border border-white/10 rounded-xl shadow-xl py-2 overflow-hidden">
                                         {languages.map((langItem) => (
                                             <button
                                                 key={langItem.code}
@@ -73,10 +101,9 @@ export function Navbar() {
                                                     setLanguage(langItem.code);
                                                     setLangMenuOpen(false);
                                                 }}
-                                                className={`w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors ${language === langItem.code ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600' : 'text-zinc-700 dark:text-zinc-300'}`}
+                                                className={`w-full text-left px-4 py-2 flex items-center justify-between hover:bg-white/10 transition-colors ${language === langItem.code ? 'text-blue-400' : 'text-zinc-400'}`}
                                             >
-                                                <span className="text-xl">{langItem.flag}</span>
-                                                <span className="text-sm font-medium">{langItem.label}</span>
+                                                <span className="text-sm font-bold">{langItem.code}</span>
                                             </button>
                                         ))}
                                     </div>
@@ -85,35 +112,18 @@ export function Navbar() {
 
                             <Link
                                 href="/rooms"
-                                className="bg-zinc-900 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-zinc-800 transition-colors"
+                                className="bg-white text-zinc-950 px-5 py-2.5 rounded-full text-sm font-bold hover:bg-zinc-200 transition-colors shadow-lg shadow-white/10"
                             >
                                 {t.navbar.bookNow}
                             </Link>
                         </div>
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <div className="md:hidden flex items-center gap-4">
-                        <button
-                            onClick={() => setLangMenuOpen(!langMenuOpen)}
-                            className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 px-2 py-2 rounded-lg"
-                        >
-                            <span className="text-xl">{currentFlag}</span>
-                        </button>
-
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-zinc-700 hover:text-zinc-900 focus:outline-none"
-                        >
-                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                        </button>
                     </div>
                 </div>
             </div>
 
             {/* Mobile Language Menu (Dropdown style below header for mobile) */}
             {langMenuOpen && (
-                <div className="md:hidden absolute top-20 right-4 w-48 bg-white/80 backdrop-blur-xl dark:bg-zinc-900/80 rounded-xl shadow-xl border border-white/20 dark:border-white/10 py-2 overflow-hidden z-50">
+                <div className="md:hidden absolute top-20 right-4 w-32 bg-zinc-950 border border-white/10 rounded-xl shadow-xl py-2 overflow-hidden z-50">
                     {languages.map((langItem) => (
                         <button
                             key={langItem.code}
@@ -121,24 +131,23 @@ export function Navbar() {
                                 setLanguage(langItem.code);
                                 setLangMenuOpen(false);
                             }}
-                            className={`w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors ${language === langItem.code ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600' : 'text-zinc-700 dark:text-zinc-300'}`}
+                            className={`w-full text-left px-4 py-3 flex items-center justify-between hover:bg-white/10 transition-colors ${language === langItem.code ? 'text-blue-400' : 'text-zinc-400'}`}
                         >
-                            <span className="text-xl">{langItem.flag}</span>
-                            <span className="text-sm font-medium">{langItem.label}</span>
+                            <span className="text-sm font-bold">{langItem.code}</span>
                         </button>
                     ))}
                 </div>
             )}
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu - Solid Background */}
             {isOpen && (
-                <div className="md:hidden bg-white/15 backdrop-blur-xl dark:bg-zinc-900/30 border-t border-white/10 absolute w-full z-40 rounded-b-2xl">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <div className="md:hidden bg-zinc-950 border-t border-white/10 absolute w-full z-40 rounded-b-2xl shadow-2xl">
+                    <div className="px-4 pt-4 pb-6 space-y-2">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800"
+                                className="block px-4 py-3 rounded-xl text-base font-medium text-zinc-300 hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-white/5"
                                 onClick={() => setIsOpen(false)}
                             >
                                 {link.label}
@@ -146,7 +155,7 @@ export function Navbar() {
                         ))}
                         <Link
                             href="/rooms"
-                            className="block w-full text-center mt-4 bg-zinc-900 text-white px-5 py-3 rounded-md text-base font-medium hover:bg-zinc-800"
+                            className="block w-full text-center mt-6 bg-white text-zinc-950 px-5 py-4 rounded-xl text-base font-bold hover:bg-zinc-200 shadow-lg"
                             onClick={() => setIsOpen(false)}
                         >
                             {t.navbar.bookNow}

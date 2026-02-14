@@ -12,6 +12,7 @@ interface Room {
     price: number;
     capacity: number;
     images: string[];
+    amenities?: string[];
 }
 
 interface RoomCardProps {
@@ -110,23 +111,35 @@ export function RoomCard({ room }: RoomCardProps) {
                 </p>
 
                 {/* Features Grid */}
+                {/* Dynamic Features Grid */}
                 <div className="grid grid-cols-2 gap-3 mb-8">
                     <div className="flex items-center space-x-2 text-sm text-gray-300 bg-white/5 p-2 rounded-lg border border-white/5">
                         <span>👥</span>
                         <span>{room.capacity} {t.rooms.capacity}</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-300 bg-white/5 p-2 rounded-lg border border-white/5">
-                        <span>📐</span>
-                        <span>35 m²</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-300 bg-white/5 p-2 rounded-lg border border-white/5">
-                        <span>📶</span>
-                        <span>{t.rooms.features.wifi}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-300 bg-white/5 p-2 rounded-lg border border-white/5">
-                        <span>❄️</span>
-                        <span>{t.rooms.features.ac}</span>
-                    </div>
+                    {/* Render up to 3 amenities */}
+                    {room.amenities && room.amenities.slice(0, 3).map((key, idx) => {
+                        const icons: Record<string, string> = {
+                            wifi: '📶',
+                            ac: '❄️',
+                            tv: '📺',
+                            minibar: '🍷',
+                            tea_coffee: '☕',
+                            balcony: '🌅',
+                            sofa: '🛋️',
+                            wireless_charging: '⚡',
+                            safe: '🔒',
+                            hair_dryer: '💨'
+                        };
+                        // Typings for t.rooms.features are not strictly typed as a record, so cast or check
+                        const label = (t.rooms.features as any)[key] || key;
+                        return (
+                            <div key={idx} className="flex items-center space-x-2 text-sm text-gray-300 bg-white/5 p-2 rounded-lg border border-white/5">
+                                <span>{icons[key] || '✨'}</span>
+                                <span className="truncate">{label}</span>
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <Link

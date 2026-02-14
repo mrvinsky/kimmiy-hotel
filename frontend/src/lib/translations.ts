@@ -76,14 +76,33 @@ export const translations = {
             restaurant: {
                 title: "Cafe & Breakfast",
                 desc: "Guests can enjoy breakfast every morning. Our cafe offers a variety of hot, soft and alcoholic drinks."
+            },
+            spa: {
+                title: "Spa & Wellness",
+                desc: "Relax and rejuvenate with our exclusive spa treatments and wellness area."
             }
         },
         map: {
             location: "Surčin, Belgrade",
-            desc: "Just 2.9 km from Nikola Tesla International Airport."
+            desc: "Just 2.9 km from Nikola Tesla International Airport.",
+            gallery: [
+                {
+                    title: "Modern Exterior",
+                    desc: "A welcoming sight in the heart of Surčin."
+                },
+                {
+                    title: "Spacious Interior",
+                    desc: "Designed for your comfort and relaxation."
+                },
+                {
+                    title: "Elegant Corridors",
+                    desc: "Stylish details in every corner."
+                }
+            ]
         },
         footer: {
             newsletter: {
+
                 title: "Stay Updated with Kimmiy",
                 description: "Subscribe to our newsletter for special offers, events, and announcements.",
                 placeholder: "Your email address",
@@ -233,11 +252,29 @@ export const translations = {
             restaurant: {
                 title: "Restoran i Doručak",
                 desc: "Započnite dan bogatim švedskim stolom i uživajte u svetskoj kuhinji u večernjim satima."
+            },
+            spa: {
+                title: "Spa & Wellness",
+                desc: "Opustite se i podmladite uz naše ekskluzivne spa tretmane i wellness zonu."
             }
         },
         map: {
             location: "Centralna Lokacija",
-            desc: "U srcu grada, blizu svega."
+            desc: "U srcu grada, blizu svega.",
+            gallery: [
+                {
+                    title: "Moderan Eksterijer",
+                    desc: "Dobrodošlica u srcu Surčina."
+                },
+                {
+                    title: "Prostran Enterijer",
+                    desc: "Dizajnirano za vaš odmor i opuštanje."
+                },
+                {
+                    title: "Elegantni Hodnici",
+                    desc: "Stilski detalji u svakom uglu."
+                }
+            ]
         },
         footer: {
             newsletter: {
@@ -389,11 +426,29 @@ export const translations = {
             restaurant: {
                 title: "餐厅和早餐",
                 desc: "以丰盛的开放式自助早餐开始新的一天，晚上享受世界美食。"
+            },
+            spa: {
+                title: "水疗与健康",
+                desc: "通过我们需要的水疗和健康护理放松身心，恢复活力。"
             }
         },
         map: {
             location: "中心位置",
-            desc: "位于市中心，靠近一切。"
+            desc: "位于市中心，靠近一切。",
+            gallery: [
+                {
+                    title: "现代外观",
+                    desc: "苏尔钦中心的热情景象。"
+                },
+                {
+                    title: "宽敞内饰",
+                    desc: "专为您的舒适和放松而设计。"
+                },
+                {
+                    title: "优雅走廊",
+                    desc: "每个角落都有时尚细节。"
+                }
+            ]
         },
         footer: {
             newsletter: {

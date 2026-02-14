@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 
 type Language = 'EN' | 'SR' | 'ZH';
 
@@ -11,10 +12,10 @@ export default function NewRoomPage() {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Language>('EN');
+  const [images, setImages] = useState<string[]>([]);
 
   const onSubmit = async (data: any) => {
     try {
-      // Construct localized objects
       const name = {
         EN: data.name_EN,
         SR: data.name_SR,
@@ -26,13 +27,19 @@ export default function NewRoomPage() {
         ZH: data.description_ZH
       };
 
+      // Process amenities from comma-separated string
+      const amenities = data.amenities
+        ? data.amenities.split(',').map((item: string) => item.trim()).filter(Boolean)
+        : [];
+
       await api.post('/rooms', {
         name,
         description,
         price: +data.price,
         capacity: +data.capacity,
         totalStock: +data.totalStock,
-        images: [] // Placeholder
+        images: images,
+        amenities: amenities
       }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
       });
@@ -55,7 +62,7 @@ export default function NewRoomPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white dark:bg-zinc-900 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-800">
 
-        {/* Language Tabs */}
+        {/* ... (Language Tabs and Localized Fields remain same) ... */}
         <div className="flex border-b border-gray-200 dark:border-zinc-700 mb-6">
           {tabs.map((tab) => (
             <button
@@ -72,7 +79,6 @@ export default function NewRoomPage() {
           ))}
         </div>
 
-        {/* Localized Fields */}
         <div className="space-y-4">
           {tabs.map((tab) => (
             <div key={tab.id} className={activeTab === tab.id ? 'block' : 'hidden'}>
@@ -97,7 +103,7 @@ export default function NewRoomPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
+        <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
           <div>
             <label className="block text-sm font-medium mb-1">Price (€)</label>
             <input
@@ -123,12 +129,25 @@ export default function NewRoomPage() {
               className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
             />
           </div>
+          {/* Amenities Field */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Amenities (comma separated keys)</label>
+            <input
+              type="text"
+              {...register('amenities')}
+              placeholder="wifi, tv, ac, minibar..."
+              className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
+            />
+            <p className="text-xs text-zinc-500 mt-1">Keys: wifi, tv, ac, minibar, tea_coffee, balcony, safe, hair_dryer</p>
+          </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Images</label>
-          <p className="text-xs text-zinc-500 mb-2">Image uploading is currently in development.</p>
-          <input type="file" disabled className="block w-full text-sm text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-zinc-100 file:text-zinc-700 hover:file:bg-zinc-200" />
+          <label className="block text-sm font-medium mb-2">Images</label>
+          <ImageUpload
+            value={images}
+            onChange={(newImages) => setImages(newImages)}
+          />
         </div>
 
         <button type="submit" className="w-full bg-zinc-900 text-white py-3 rounded-lg font-bold hover:bg-zinc-800 transition-colors">

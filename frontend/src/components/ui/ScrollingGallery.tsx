@@ -3,12 +3,14 @@
 import { motion } from 'framer-motion';
 
 const images = [
-    'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop', // Hotel Exterior
-    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1964&auto=format&fit=crop', // Room
-    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop', // Restaurant
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop', // Pool/Exterior
-    'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2025&auto=format&fit=crop', // Lounge
-    'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop', // Exterior Night
+    '/gallery/1.jpg',
+    '/gallery/2.jpg',
+    '/gallery/3.jpg',
+    '/gallery/4.jpg',
+    '/gallery/5.jpg',
+    // Duplicate some to ensure loop smoothness if needed, or rely on component loop logic
+    '/gallery/1.jpg',
+    '/gallery/2.jpg',
 ];
 
 export function ScrollingGallery() {
