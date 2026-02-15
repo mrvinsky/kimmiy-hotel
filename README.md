@@ -23,6 +23,7 @@ A comprehensive, full-stack hotel management solution featuring a modern public-
     *   **RESTful API:** Secure and structured API endpoints.
     *   **Database:** Relational database using PostgreSQL with TypeORM.
     *   **Containerization:** Full Docker support for easy deployment.
+    *   **OTA Sync:** iCal Import/Export for Booking.com & Airbnb integration.
 
 ---
 
@@ -122,3 +123,13 @@ The project uses a custom `LanguageContext` for handling translations.
     const { t, language, setLanguage } = useLanguage();
     // Access: t.section.key
     ```
+
+## 📅 OTA Synchronization (iCal)
+
+The system supports two-way calendar synchronization with major OTAs (Booking.com, Airbnb, etc.) via iCal format:
+*   **Export:** Generate unique `.ics` links for each room to share with external platforms.
+*   **Import:** Consume external iCal feeds (e.g., from Booking.com) to automatically block dates in the system and prevent double bookings.
+
+---
+
+**Developed by Mr.Vinsky** 🎩
