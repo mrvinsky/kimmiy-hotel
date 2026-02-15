@@ -27,6 +27,9 @@ export class Room {
   @Column('simple-array', { nullable: true })
   amenities: string[];
 
+  @Column({ nullable: true })
+  icalFeedUrl: string;
+
   @OneToMany(() => Booking, (booking) => booking.room)
   bookings: Booking[];
 }

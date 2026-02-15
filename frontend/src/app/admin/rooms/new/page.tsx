@@ -39,7 +39,10 @@ export default function NewRoomPage() {
         capacity: +data.capacity,
         totalStock: +data.totalStock,
         images: images,
-        amenities: amenities
+        amenities: amenities,
+        icalFeedUrl: data.icalFeedUrl
+      }, {
+        icalFeedUrl: data.icalFeedUrl
       }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
       });
@@ -139,6 +142,24 @@ export default function NewRoomPage() {
               className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
             />
             <p className="text-xs text-zinc-500 mt-1">Keys: wifi, tv, ac, minibar, tea_coffee, balcony, safe, hair_dryer</p>
+          </div>
+        </div>
+
+        {/* OTA Synchronization Section */}
+        <div className="mt-8 pt-8 border-t border-gray-100 dark:border-zinc-800">
+          <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+            <span>📅</span> OTA Synchronization (iCal)
+          </h3>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">iCal Import URL (Booking.com / Airbnb)</label>
+            <input
+              type="text"
+              {...register('icalFeedUrl')}
+              placeholder="https://admin.booking.com/hotel/hoteladmin/ical.html?..."
+              className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 font-mono text-sm"
+            />
+            <p className="text-xs text-zinc-500 mt-1">Paste the calendar export link from Booking.com or Airbnb here to sync external bookings.</p>
           </div>
         </div>
 

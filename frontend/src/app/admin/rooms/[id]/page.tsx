@@ -29,6 +29,7 @@ export default function EditRoomPage() {
                     if (room.amenities && Array.isArray(room.amenities)) {
                         setValue('amenities', room.amenities.join(', '));
                     }
+                    setValue('icalFeedUrl', room.icalFeedUrl || '');
 
 
                     // Handle multi-language fields
@@ -85,7 +86,8 @@ export default function EditRoomPage() {
                 capacity: +data.capacity,
                 totalStock: +data.totalStock,
                 images: images,
-                amenities: amenities
+                amenities: amenities,
+                icalFeedUrl: data.icalFeedUrl
             }, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             });
@@ -187,6 +189,49 @@ export default function EditRoomPage() {
                             className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700"
                         />
                         <p className="text-xs text-zinc-500 mt-1">Keys: wifi, tv, ac, minibar, tea_coffee...</p>
+                    </div>
+                </div>
+
+                {/* OTA Synchronization Section */}
+                <div className="mt-8 pt-8 border-t border-gray-100 dark:border-zinc-800">
+                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                        <span>📅</span> OTA Synchronization (iCal)
+                    </h3>
+
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-1">iCal Import URL (Booking.com / Airbnb)</label>
+                            <input
+                                type="text"
+                                {...register('icalFeedUrl')}
+                                placeholder="https://admin.booking.com/hotel/hoteladmin/ical.html?..."
+                                className="w-full p-3 border rounded-lg dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 font-mono text-sm"
+                            />
+                            <p className="text-xs text-zinc-500 mt-1">Paste the calendar export link from Booking.com or Airbnb here to sync external bookings.</p>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">iCal Export URL (Share this with OTAs)</label>
+                            <div className="flex gap-2">
+                                <input
+                                    readOnly
+                                    value={`${window.location.protocol}//${window.location.hostname}:4000/calendar/rooms/${id}/export.ics`}
+                                    className="w-full p-3 border rounded-lg bg-gray-50 dark:bg-zinc-800/50 border-gray-300 dark:border-zinc-700 font-mono text-sm text-gray-500"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        const url = `${window.location.protocol}//${window.location.hostname}:4000/calendar/rooms/${id}/export.ics`;
+                                        navigator.clipboard.writeText(url);
+                                        alert('URL copied to clipboard!');
+                                    }}
+                                    className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-colors"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                            <p className="text-xs text-zinc-500 mt-1">Copy this URL and paste it into Booking.com/Airbnb "Import Calendar" settings.</p>
+                        </div>
                     </div>
                 </div>
 

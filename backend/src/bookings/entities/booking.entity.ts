@@ -7,6 +7,13 @@ export enum BookingStatus {
   REJECTED = 'REJECTED',
 }
 
+export enum BookingSource {
+  DIRECT = 'DIRECT',
+  BOOKING_COM = 'BOOKING_COM',
+  AIRBNB = 'AIRBNB',
+  OTHER = 'OTHER',
+}
+
 @Entity()
 export class Booking {
   @PrimaryGeneratedColumn()
@@ -42,6 +49,16 @@ export class Booking {
     default: BookingStatus.PENDING,
   })
   status: BookingStatus;
+
+  @Column({
+    type: 'enum',
+    enum: BookingSource,
+    default: BookingSource.DIRECT,
+  })
+  source: BookingSource;
+
+  @Column({ nullable: true })
+  externalId: string;
 
   @ManyToOne(() => Room, (room) => room.bookings, { onDelete: 'SET NULL' })
   room: Room;

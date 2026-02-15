@@ -12,6 +12,8 @@ import { AuthModule } from './auth/auth.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { SubscribersModule } from './subscribers/subscribers.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { SubscribersModule } from './subscribers/subscribers.module';
     RoomsModule,
     BookingsModule,
     SubscribersModule,
+    ScheduleModule.forRoot(),
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService],

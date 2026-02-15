@@ -90,6 +90,14 @@ export class BookingsService {
     }));
   }
 
+  findAllByRoom(roomId: number) {
+    return this.bookingsRepository.find({
+      where: { room: { id: roomId } },
+      relations: ['room'],
+      order: { checkInDate: 'ASC' },
+    });
+  }
+
   findAll() {
     return this.bookingsRepository.find({
       relations: ['room'],
