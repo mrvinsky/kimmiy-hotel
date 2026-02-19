@@ -37,9 +37,14 @@ services:
       SMTP_USER: ${SMTP_USER}
       SMTP_PASS: ${SMTP_PASS}
       JWT_SECRET: ${JWT_SECRET:-supersecretkey}
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-false}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-adminpassword123}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
     volumes:
-      - ./backend:/app
-      - /app/node_modules
+      - uploads_data:/app/uploads
+    #    volumes:
+    #      - ./backend:/app
+    #      - /app/node_modules
     ports:
       - "3001:3001"
     depends_on:
@@ -55,9 +60,9 @@ services:
     restart: always
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:3001
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+    #    volumes:
+    #      - ./frontend:/app
+    #      - /app/node_modules
     ports:
       - "3000:3000"
     depends_on:
@@ -67,6 +72,7 @@ services:
 
 volumes:
   postgres_data:
+  uploads_data:
 
 
 networks:

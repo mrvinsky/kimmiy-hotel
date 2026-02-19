@@ -42,8 +42,6 @@ export default function NewRoomPage() {
         amenities: amenities,
         icalFeedUrl: data.icalFeedUrl
       }, {
-        icalFeedUrl: data.icalFeedUrl
-      }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
       });
       router.push('/admin/rooms');

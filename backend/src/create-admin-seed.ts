@@ -10,7 +10,7 @@ async function bootstrap() {
     const usersRepository = app.get(getRepositoryToken(User));
 
     const adminUsername = 'admin';
-    const adminPassword = 'adminpassword123'; // Change this in production!
+    const adminPassword = process.env.ADMIN_PASSWORD || 'adminpassword123'; // Change this in production!
 
     const existingAdmin = await usersRepository.findOne({ where: { username: adminUsername } });
 

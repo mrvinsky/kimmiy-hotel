@@ -28,7 +28,7 @@ import { CalendarModule } from './calendar/calendar.module';
         type: 'postgres',
         url: configService.get('DATABASE_URL'),
         autoLoadEntities: true,
-        synchronize: true, // Auto-create tables in dev. For production, use migrations.
+        synchronize: configService.get('DB_SYNCHRONIZE') === 'true', // Auto-create tables in dev. For production, use migrations.
       }),
       inject: [ConfigService],
     }),

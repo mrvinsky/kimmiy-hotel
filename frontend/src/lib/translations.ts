@@ -1,4 +1,4 @@
-export type Language = 'EN' | 'SR' | 'ZH';
+export type Language = 'EN' | 'SR' | 'ZH' | 'TR';
 
 export const translations = {
     EN: {
@@ -198,6 +198,204 @@ export const translations = {
             error: "An error occurred. Please try again."
         }
     },
+    TR: {
+        hero: {
+            welcome: "Hoşgeldiniz",
+            welcomeSpan: "Kimmiy Hotel",
+            subtitle: "Belgrad'daki Eviniz, Havalimanı Yakınında Konfor",
+            description: "Kimmiy Hotel, Belgrad'ın Surçin bölgesinde havalimanına sadece birkaç dakika uzaklıkta modern ve konforlu bir konaklama deneyimi sunuyor. İster iş ister tatil amaçlı olsun, misafirlerimiz için ev konforunda bir atmosfer sağlıyoruz.",
+            cta: "Rezervasyon Yap"
+        },
+        navbar: {
+            home: "Ana Sayfa",
+            rooms: "Odalar",
+            services: "Hizmetler",
+            about: "Hakkımızda",
+            contact: "İletişim",
+            bookNow: "Rezervasyon Yap",
+            language: "Dil"
+        },
+        gallery: {
+            badge: "Galeri",
+            title: "Oteli Keşfedin",
+            description: "Modern mimari, şık detaylar ve konforun her köşede yansıdığı atmosferimizi yakından inceleyin."
+        },
+        quote: {
+            text: "İyi bir gezginin sabit planları yoktur ve varmaya niyeti yoktur.",
+            author: "Lao Tzu"
+        },
+        about: {
+            badge: "Hakkımızda",
+            title: "Konfor ve Lüksün",
+            titleSpan: "Buluşma Noktası",
+            desc1: "Kimmiy Hotel, Nikola Tesla Uluslararası Havalimanı'na sadece 2.9 km uzaklıktaki Surçin'in sakin bölgesinde yer almaktadır, bu da onu iş veya tatil amaçlı seyahat eden misafirler için mükemmel bir seçim haline getirmektedir.",
+            desc2: "Sakin konumu, mükemmel bağlantıları ve havalimanına yakınlığı ile Kimmiy Hotel, konfor ve erişilebilirliğin mükemmel dengesini sunar. Otel yerel restoranlara, kafelere ve temel hizmetlere yakındır, Belgrad şehir merkezi ise yaklaşık 12 km uzaklıktadır.",
+            cta: "Daha Fazla Bilgi",
+            experience: "Yıllık Tecrübe",
+            testimonials: [
+                {
+                    name: "Maria",
+                    text: "Otel çok güzel, çok sayıda park yeri var ve park etmek çok rahat. Havalimanına yakın olmasına rağmen, inen ve kalkan uçakların gürültüsünü duyamazsınız. Oda çok temiz, yatak rahat, personel çok ilgili.",
+                    rating: 5
+                },
+                {
+                    name: "Jenny",
+                    text: "Hizmette veya kaldığım kalitede kusur bulamadım. Müdür Kim ve personeli dost canlısıydı ve Kim elimden geldiğince rahat etmemi sağlamak için elinden geleni yaptı. Oda harikaydı. Yatak son derece rahattı.",
+                    rating: 5
+                },
+                {
+                    name: "Neslihan",
+                    text: "Tesiste geçirdiğimiz her andan, varıştan ayrılışa kadar çok memnun kaldık. Tertemiz, yepyeni bir otel. Her şey mükemmeldi. Kesinlikle burada tekrar kalmayı tercih ederim.",
+                    rating: 5
+                },
+                {
+                    name: "Adrian",
+                    text: "Tesis bir gecelik konaklama beklentimi karşıladı. Havalimanı ve otoyola yakın iyi konum. Bu tesis temiz, iyi olanaklara sahip odalar, rahat yataklar, dost canlısı ve yardımsever personel.",
+                    rating: 5
+                }
+            ]
+        },
+        services: {
+            title: "Özel",
+            titleSpan: "Hizmetler",
+            transfer: {
+                title: "Havalimanı Transferi",
+                desc: "Yön başına 15 eur karşılığında ulaşım ayarlanabilir. Havalimanına yakın."
+            },
+            wifi: {
+                title: "Fiber İnternet",
+                desc: "Tüm odalarda ve ortak alanlarda kesintisiz, yüksek hızlı fiber Wi-Fi bağlantısı."
+            },
+            parking: {
+                title: "Özel Otopark",
+                desc: "Misafirlerimiz için ücretsiz otopark mevcuttur."
+            },
+            restaurant: {
+                title: "Kafe & Kahvaltı",
+                desc: "Misafirler her sabah kahvaltının tadını çıkarabilirler. Kafemiz çeşitli sıcak, alkolsüz ve alkollü içecekler sunmaktadır."
+            },
+            spa: {
+                title: "Spa & Wellness",
+                desc: "Özel spa bakımlarımız ve wellness alanımızla rahatlayın ve yenilenin."
+            }
+        },
+        map: {
+            location: "Surçin, Belgrad",
+            desc: "Nikola Tesla Uluslararası Havalimanı'na sadece 2.9 km.",
+            gallery: [
+                {
+                    title: "Modern Dış Cephe",
+                    desc: "Surçin'in kalbinde davetkar bir manzara."
+                },
+                {
+                    title: "Ferah İç Mekan",
+                    desc: "Konforunuz ve rahatlamanız için tasarlandı."
+                },
+                {
+                    title: "Şık Koridorlar",
+                    desc: "Her köşede şık detaylar."
+                }
+            ]
+        },
+        footer: {
+            newsletter: {
+
+                title: "Kimmiy ile Güncel Kalın",
+                description: "Özel teklifler, etkinlikler ve duyurular için bültenimize abone olun.",
+                placeholder: "E-posta adresiniz",
+                button: "Abone Ol",
+                success: "Başarıyla abone olundu!",
+                error: "Abonelik başarısız."
+            },
+            brandDesc: "Kimmiy Hotel, Nikola Tesla Uluslararası Havalimanı'na sadece 2.9 km uzaklıktaki Surçin'in sakin bölgesinde yer almaktadır.",
+            sections: {
+                discover: "Keşfet",
+                services: "Hizmetler",
+                contact: "İletişim"
+            },
+            rights: "Tüm hakları saklıdır.",
+            privacy: "Gizlilik Politikası",
+            terms: "Kullanım Şartları",
+            links: {
+                home: "Ana Sayfa",
+                rooms: "Odalar & Süitler",
+                services: "Hizmetler",
+                about: "Hakkımızda",
+                transfer: "Transfer",
+                restaurant: "Kafe",
+                spa: "Spa & Wellness",
+                meeting: "Toplantı Odaları"
+            }
+        },
+        contact: {
+            badge: "İletişim",
+            title: "Bize Ulaşın",
+            infoTitle: "İletişim Bilgileri",
+            formTitle: "Bize Yazın",
+            address: "Adres: Devet Jugovića 1, Surçin, Belgrad, Sırbistan",
+            phone: "+381 69 865 6666",
+            email: "kimmiy.hotel@gmail.com",
+            form: {
+                name: "Ad Soyad",
+                email: "E-posta Adresi",
+                subject: "Konu",
+                message: "Mesajınız",
+                button: "Mesaj Gönder"
+            }
+        },
+        rooms: {
+            title: "Odalarımız",
+            subtitle: "Konfor ve Kolaylığın Buluşma Noktası",
+            loading: "Yükleniyor...",
+            noRooms: "Henüz uygun oda yok.",
+            night: "/ gece",
+            capacity: "Kişi",
+            detailsButton: "Detayları Gör",
+            features: {
+                wifi: "Wi-Fi",
+                ac: "Klima",
+                tv: "TV",
+                minibar: "Minibar"
+            },
+            detail: {
+                back: "Tüm Odalara Dön",
+                featuresTitle: "Oda Özellikleri",
+                descriptionTitle: "Açıklama",
+                bookNow: "Şimdi Rezervasyon Yap"
+            }
+        },
+        booking: {
+            title: "Rezervasyon",
+            successTitle: "İstek Alındı!",
+            successDesc: "Rezervasyon isteğiniz başarıyla gönderildi. En kısa sürede size geri döneceğiz.",
+            newRequest: "Yeni istek gönder",
+            labels: {
+                dates: "Tarihleri Seçin",
+                checkIn: "Giriş Tarihi",
+                checkOut: "Çıkış Tarihi",
+                adults: "Yetişkinler",
+                children: "Çocuklar",
+                name: "Ad Soyad",
+                email: "E-posta",
+                phone: "Telefon",
+                specialRequests: "Özel İstekler"
+            },
+            validation: {
+                required: "Zorunlu alan",
+                checkInRequired: "Giriş tarihi zorunludur",
+                checkOutRequired: "Çıkış tarihi zorunludur",
+                nameRequired: "Ad soyad zorunludur",
+                emailRequired: "E-posta zorunludur",
+                phoneRequired: "Telefon zorunludur"
+            },
+            datesRequired: "Lütfen hem giriş hem de çıkış tarihlerini seçin.",
+            unavailable: "Seçilen tarihler uygun değil.",
+            submit: "İstek Gönder",
+            submitting: "Gönderiliyor...",
+            error: "Bir hata oluştu. Lütfen tekrar deneyin."
+        },
+
+    },
     SR: {
         hero: {
             // ... (keep existing)
@@ -232,7 +430,8 @@ export const translations = {
             desc1: "Hotel Kimmiy nije samo mesto za boravak, već životni prostor gde ćete se osećati kao kod kuće. Smešteni odmah pored beogradskog aerodroma, nalazimo se na savršenoj lokaciji kako za poslovna putovanja tako i za odmor.",
             desc2: "Cilj nam je da pružimo nezaboravne trenutke našim gostima uz našu modernu arhitekturu, ljubazan tim i posvećenost detaljima.",
             cta: "Više Informacija",
-            experience: "Godina Iskustva"
+            experience: "Godina Iskustva",
+            testimonials: []
         },
         services: {
             title: "Ekskluzivne",
@@ -406,7 +605,8 @@ export const translations = {
             desc1: "Kimmiy 酒店不仅仅是一个住宿的地方，更是一个让您有宾至如归感觉的生活空间。我们就位于贝尔格莱德机场旁边，地理位置绝佳，非常适合商务旅行和度假。",
             desc2: "我们的目标是通过现代化的建筑、友好的团队和对细节的关注，为客人提供难忘的时刻。",
             cta: "更多信息",
-            experience: "多年经验"
+            experience: "多年经验",
+            testimonials: []
         },
         services: {
             title: "尊享",
