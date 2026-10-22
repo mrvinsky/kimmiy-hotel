@@ -37,6 +37,8 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
       SMTP_FROM_NAME: ${SMTP_FROM_NAME:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      BOOKING_NOTIFY_EMAIL: ${BOOKING_NOTIFY_EMAIL:-}
     volumes:
       - uploads_data:/app/backend/uploads
     # Only reachable from this machine; the public entry point is Caddy

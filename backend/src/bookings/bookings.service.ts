@@ -6,6 +6,7 @@ import { Booking, BookingStatus } from './entities/booking.entity';
 import { Repository } from 'typeorm';
 import { MailService } from '../mail/mail.service';
 import { RoomsService } from '../rooms/rooms.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BookingsService {
@@ -14,6 +15,7 @@ export class BookingsService {
     private bookingsRepository: Repository<Booking>,
     private mailService: MailService,
     private roomsService: RoomsService,
+    private configService: ConfigService,
   ) { }
 
   async create(createBookingDto: CreateBookingDto) {
@@ -55,6 +57,39 @@ export class BookingsService {
       );
     } catch (error) {
       console.error('Email sending failed:', error);
+    }
+
+    // Notify the hotel about the new request
+    const notifyEmail = this.configService.get<string>('BOOKING_NOTIFY_EMAIL');
+    if (notifyEmail) {
+      const roomName =
+        room.name?.tr || room.name?.en || Object.values(room.name || {})[0] || `#${room.id}`;
+      const formatDate = (date: Date | string) =>
+        new Date(date).toLocaleDateString('tr-TR');
+      try {
+        await this.mailService.sendMail(
+          notifyEmail,
+          `Yeni Rezervasyon Talebi #${savedBooking.id} - ${savedBooking.guestName}`,
+          [
+            'Yeni bir rezervasyon talebi geldi.',
+            '',
+            `Misafir: ${savedBooking.guestName}`,
+            `E-posta: ${savedBooking.guestEmail}`,
+            `Telefon: ${savedBooking.guestPhone}`,
+            `Oda: ${roomName}`,
+            `Giriş: ${formatDate(savedBooking.checkInDate)}`,
+            `Çıkış: ${formatDate(savedBooking.checkOutDate)}`,
+            `Yetişkin: ${savedBooking.adults}, Çocuk: ${savedBooking.children ?? 0}`,
+            `Özel istekler: ${savedBooking.specialRequests || '-'}`,
+            '',
+            'Onaylamak veya reddetmek için admin paneline girin.',
+          ].join('\n'),
+          undefined,
+          savedBooking.guestEmail,
+        );
+      } catch (error) {
+        console.error('Hotel notification email failed:', error);
+      }
     }
 
     return savedBooking;
