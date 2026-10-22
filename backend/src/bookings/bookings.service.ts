@@ -8,6 +8,13 @@ import { MailService } from '../mail/mail.service';
 import { RoomsService } from '../rooms/rooms.service';
 import { ConfigService } from '@nestjs/config';
 
+const formatDate = (date: Date | string) =>
+  new Date(date).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
 @Injectable()
 export class BookingsService {
   constructor(
@@ -52,8 +59,8 @@ export class BookingsService {
     try {
       await this.mailService.sendMail(
         savedBooking.guestEmail,
-        'Rezervasyon Talebiniz Alındı - Kimmiy Hotel',
-        `Sayın ${savedBooking.guestName},\n\nRezervasyon talebiniz alınmıştır. En kısa sürede size dönüş yapacağız.\n\nTeşekkürler,\nKimmiy Hotel`,
+        'We Received Your Booking Request - Kimmiy Hotel',
+        `Dear ${savedBooking.guestName},\n\nThank you for your booking request. We have received it and will get back to you as soon as possible.\n\nKind regards,\nKimmiy Hotel`,
       );
     } catch (error) {
       console.error('Email sending failed:', error);
@@ -63,26 +70,24 @@ export class BookingsService {
     const notifyEmail = this.configService.get<string>('BOOKING_NOTIFY_EMAIL');
     if (notifyEmail) {
       const roomName =
-        room.name?.tr || room.name?.en || Object.values(room.name || {})[0] || `#${room.id}`;
-      const formatDate = (date: Date | string) =>
-        new Date(date).toLocaleDateString('tr-TR');
+        room.name?.en || room.name?.tr || Object.values(room.name || {})[0] || `#${room.id}`;
       try {
         await this.mailService.sendMail(
           notifyEmail,
-          `Yeni Rezervasyon Talebi #${savedBooking.id} - ${savedBooking.guestName}`,
+          `New Booking Request #${savedBooking.id} - ${savedBooking.guestName}`,
           [
-            'Yeni bir rezervasyon talebi geldi.',
+            'A new booking request has arrived.',
             '',
-            `Misafir: ${savedBooking.guestName}`,
-            `E-posta: ${savedBooking.guestEmail}`,
-            `Telefon: ${savedBooking.guestPhone}`,
-            `Oda: ${roomName}`,
-            `Giriş: ${formatDate(savedBooking.checkInDate)}`,
-            `Çıkış: ${formatDate(savedBooking.checkOutDate)}`,
-            `Yetişkin: ${savedBooking.adults}, Çocuk: ${savedBooking.children ?? 0}`,
-            `Özel istekler: ${savedBooking.specialRequests || '-'}`,
+            `Guest: ${savedBooking.guestName}`,
+            `Email: ${savedBooking.guestEmail}`,
+            `Phone: ${savedBooking.guestPhone}`,
+            `Room: ${roomName}`,
+            `Check-in: ${formatDate(savedBooking.checkInDate)}`,
+            `Check-out: ${formatDate(savedBooking.checkOutDate)}`,
+            `Adults: ${savedBooking.adults}, Children: ${savedBooking.children ?? 0}`,
+            `Special requests: ${savedBooking.specialRequests || '-'}`,
             '',
-            'Onaylamak veya reddetmek için admin paneline girin.',
+            'Log in to the admin panel to confirm or decline it.',
           ].join('\n'),
           undefined,
           savedBooking.guestEmail,
@@ -160,8 +165,8 @@ export class BookingsService {
 
     await this.mailService.sendMail(
       booking.guestEmail,
-      'Rezervasyonunuz Onaylandı - Kimmiy Hotel',
-      `Sayın ${booking.guestName},\n\nRezervasyon talebiniz ONAYLANMIŞTIR.\n\nDetaylar:\nGiriş: ${new Date(booking.checkInDate).toLocaleDateString('tr-TR')}\nÇıkış: ${new Date(booking.checkOutDate).toLocaleDateString('tr-TR')}\n\nİyi yolculuklar dileriz!`,
+      'Your Booking Is Confirmed - Kimmiy Hotel',
+      `Dear ${booking.guestName},\n\nWe are happy to let you know that your booking is CONFIRMED.\n\nDetails:\nCheck-in: ${formatDate(booking.checkInDate)}\nCheck-out: ${formatDate(booking.checkOutDate)}\n\nWe look forward to welcoming you!\n\nKind regards,\nKimmiy Hotel`,
     );
 
     return booking;
@@ -176,8 +181,8 @@ export class BookingsService {
 
     await this.mailService.sendMail(
       booking.guestEmail,
-      'Rezervasyon Hakkında - Kimmiy Hotel',
-      `Sayın ${booking.guestName},\n\nMaalesef seçtiğiniz tarihlerde müsaitlik bulunmadığından rezervasyon talebiniz onaylanamamıştır.\n\nAnlayışınız için teşekkürler.`,
+      'About Your Booking Request - Kimmiy Hotel',
+      `Dear ${booking.guestName},\n\nUnfortunately we are fully booked for the dates you selected, so we are unable to confirm your booking request.\n\nThank you for your understanding.\n\nKind regards,\nKimmiy Hotel`,
     );
 
     return booking;
