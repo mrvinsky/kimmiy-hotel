@@ -53,7 +53,11 @@ export function ImageUpload({ value = [], onChange }: ImageUploadProps) {
     const getFullUrl = (path: string) => {
         if (path.startsWith('http')) return path;
 
-        let baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+        // Without an explicit API URL, /uploads is proxied to the backend by the Next.js rewrite
+        let baseUrl = process.env.NEXT_PUBLIC_API_URL;
+        if (!baseUrl) return normalizedPath;
 
         // Fix: If API URL ends with /api, remove it for static file serving
         // because ServeStaticModule serves at root /uploads, not /api/uploads
@@ -61,7 +65,6 @@ export function ImageUpload({ value = [], onChange }: ImageUploadProps) {
             baseUrl = baseUrl.slice(0, -4);
         }
 
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
         return `${baseUrl}${normalizedPath}`;
     };
 

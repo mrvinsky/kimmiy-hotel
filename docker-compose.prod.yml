@@ -1,76 +1,66 @@
-version: '3.8'
+# Production stack: Caddy (HTTPS) -> app (frontend :3000, proxies /api and /uploads to backend :3001) -> Postgres
+# Usage on the server:
+#   cp .env.production.example .env   # then fill in strong values
+#   docker compose -f docker-compose.prod.yml up -d
 
 services:
   db:
     image: postgres:15-alpine
-    restart: always
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-admin}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-      POSTGRES_DB: ${POSTGRES_DB:-kimmiyhotel}
+      POSTGRES_USER: ${POSTGRES_USER:?set in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set in .env}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432" # Optional: remove if you don't want external DB access
-    networks:
-      - kimmiy_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  redis:
-    image: redis:7-alpine
-    restart: always
-    networks:
-      - kimmiy_network
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    restart: always
+  app:
+    image: ${APP_IMAGE:-mrvinsky31/kimmiy-hotel-app:latest}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-kimmiyhotel}
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      SMTP_HOST: ${SMTP_HOST}
-      SMTP_PORT: ${SMTP_PORT}
-      SMTP_USER: ${SMTP_USER}
-      SMTP_PASS: ${SMTP_PASS}
-      JWT_SECRET: ${JWT_SECRET:-supersecretkey}
-      PORT: 3000
+      NODE_ENV: production
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-true}
+      JWT_SECRET: ${JWT_SECRET:?set in .env}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set in .env}
+      CORS_ORIGIN: https://${DOMAIN:?set in .env}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-}
     volumes:
-      - ./backend/uploads:/app/uploads # Persist uploads
-    expose:
-      - "3000"
+      - uploads_data:/app/backend/uploads
+    # Only reachable from this machine; the public entry point is Caddy
     ports:
-      - "3001:3001" # Expose backend on port 3001
-    depends_on:
-      - db
-      - redis
-    networks:
-      - kimmiy_network
+      - "127.0.0.1:3000:3000"
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    restart: always
-    environment:
-      # Internal URL for server-side fetches and rewrites
-      BACKEND_INTERNAL_URL: http://backend:3000
-      # Public URL for client-side (browser) access - change this to your specialized domain
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
-      PORT: 3000
-    expose:
-      - "3000"
-    ports:
-      - "80:3000" # Expose frontend on port 80 (standard HTTP)
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
     depends_on:
-      - backend
-    networks:
-      - kimmiy_network
+      - app
+    environment:
+      DOMAIN: ${DOMAIN:?set in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
 
 volumes:
   postgres_data:
-
-
-networks:
-  kimmiy_network:
+  uploads_data:
+  caddy_data:
+  caddy_config:
